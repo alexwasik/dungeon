@@ -1,7 +1,6 @@
 import random
 import config
 import Controls
-import Functions
 import numpy as np
 
 
@@ -28,6 +27,9 @@ def populateBaddies():
 
 
 def checkEnemy():
+    print('next', config.nextTile)
+    if config.nextTile == 0:
+        print('yep')
     if (config.nextTile == '@'):
         print('baddie ahead')
         baddie1Position = []

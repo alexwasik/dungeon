@@ -3,10 +3,11 @@ import config
 import Functions
 import Controls
 import Enemy
-
+import Player
 
 screen = turtle.Screen()
 screen.setup(width=1.0, height=1.0, startx=None, starty=None)
+screen.bgcolor(config.bgcolor)
 
 turtle.hideturtle()
 
@@ -14,7 +15,6 @@ f = open('map.txt', 'r')
 
 while(True):
     tempLine = f.readline()
-    print(tempLine)
 
     if tempLine == "":
         break
@@ -27,9 +27,11 @@ while(True):
 
 f.close()
 
+
 Enemy.populateBaddies()
 Functions.drawMap()
-Functions.drawInfoBox('you are alive')
+Functions.drawInfoBox(Player.printPlayerData())
+Functions.drawBaddieInfoBox('')
 
 
 turtle.onkey(Controls.up, 'Up')

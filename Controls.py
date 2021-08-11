@@ -2,10 +2,15 @@ import turtle
 import config
 import Functions
 import Enemy
+import Player
 
 
 def infoBoxDefault():
-    Functions.drawInfoBox('you are alive')
+    Functions.drawInfoBox(Player.printPlayerData())
+
+
+def baddieInfoBoxDefault():
+    Functions.drawBaddieInfoBox('')
 
 
 def up():
@@ -18,6 +23,7 @@ def up():
         turtle.clear()
         Functions.drawMap()
         infoBoxDefault()
+        baddieInfoBoxDefault()
     else:
         Functions.checkWin()
         Enemy.checkEnemy()
@@ -33,6 +39,7 @@ def down():
         turtle.clear()
         Functions.drawMap()
         infoBoxDefault()
+        baddieInfoBoxDefault()
     else:
         Functions.checkWin()
         Enemy.checkEnemy()
@@ -48,6 +55,7 @@ def left():
         turtle.clear()
         Functions.drawMap()
         infoBoxDefault()
+        baddieInfoBoxDefault()
     else:
         Functions.checkWin()
         Enemy.checkEnemy()
@@ -63,6 +71,7 @@ def right():
         turtle.clear()
         Functions.drawMap()
         infoBoxDefault()
+        baddieInfoBoxDefault()
     else:
         Functions.checkWin()
         Enemy.checkEnemy()
@@ -71,7 +80,7 @@ def right():
 def attack(baddie):
     print('attack')
     thisBaddie = baddie
-    Functions.drawInfoBox(
+    Functions.drawBaddieInfoBox(
         str(baddie["name"]) + "\n" + "HP: " + str(baddie["hp"]))
 
     def baddieDead():
@@ -79,7 +88,7 @@ def attack(baddie):
         config.attackState = 'peaceful'
         turtle.clear()
         Functions.drawMap()
-        Functions.drawInfoBox(thisBaddie["name"] + " is dead")
+        Functions.drawBaddieInfoBox(thisBaddie["name"] + " is dead")
 
     if (config.attackState == 'peaceful'):
         Functions.showAttackPrompt(thisBaddie)
@@ -90,7 +99,7 @@ def attack(baddie):
         elif(thisBaddie["hp"] > 0):
             thisBaddie["hp"] -= 1
             print("baddie hp", thisBaddie["hp"])
-            Functions.drawInfoBox(
+            Functions.drawBaddieInfoBox(
                 str(thisBaddie["name"]) + "\n" + "HP: " + str(thisBaddie["hp"]))
             if (baddie["hp"] == 0):
                 baddieDead()

@@ -1,0 +1,19 @@
+{
+    "fists":
+    {
+        "name": "Fists",
+        "damage": 1
+    },
+
+    "brass_knuckles":
+    {
+        "name": "Brass Knuckles",
+        "damage": 2
+    },
+
+    "basic_knife":
+    {
+        "name": "Basic Knife",
+        "damage": 3
+    }
+}
