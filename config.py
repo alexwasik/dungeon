@@ -3,7 +3,7 @@ f = open('weapons.json')
 weapon_data = json.load(f)
 
 # turtle settings
-bgcolor = 'black'
+bgcolor = '#a9adb6'
 
 # app vars
 myarr = []
@@ -14,7 +14,7 @@ nextPosition = [0, 0]
 attackState = 'peaceful'
 
 # baddies
-baddie1 = {
+baddie0 = {
     "type": "baddie",
     "name": "Baddie 1",
     "hp": 5,
@@ -23,10 +23,19 @@ baddie1 = {
         "y": 0
     },
 }
-baddie2 = {
+baddie1 = {
     "type": "baddie",
     "name": "Baddie 2",
     "hp": 6,
+    "position": {
+        "x": 0,
+        "y": 0
+    },
+}
+baddie2 = {
+    "type": "baddie",
+    "name": "Baddie 3",
+    "hp": 7,
     "position": {
         "x": 0,
         "y": 0
@@ -44,7 +53,7 @@ player = {
         "y": 0
     },
     "weapon": {
-        'name': weapon_data['fists']['name'],
-        'damage': weapon_data['fists']['damage'],
+        'name': weapon_data['brass_knuckles']['name'],
+        'damage': weapon_data['brass_knuckles']['damage'],
     }
 }
