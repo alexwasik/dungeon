@@ -80,6 +80,8 @@ def right():
 def attack(baddie):
     print('attack')
     thisBaddie = baddie
+    weaponDamage = config.player['weapon']['damage']
+    print(weaponDamage)
     Functions.drawBaddieInfoBox(
         str(baddie["name"]) + "\n" + "HP: " + str(baddie["hp"]))
 
@@ -94,12 +96,12 @@ def attack(baddie):
         Functions.showAttackPrompt(thisBaddie)
 
     if (config.attackState == 'war'):
-        if (thisBaddie["hp"] == 0):
+        if (thisBaddie["hp"] <= 0):
             baddieDead()
         elif(thisBaddie["hp"] > 0):
-            thisBaddie["hp"] -= 1
+            thisBaddie["hp"] -= weaponDamage
             print("baddie hp", thisBaddie["hp"])
             Functions.drawBaddieInfoBox(
                 str(thisBaddie["name"]) + "\n" + "HP: " + str(thisBaddie["hp"]))
-            if (baddie["hp"] == 0):
+            if (baddie["hp"] <= 0):
                 baddieDead()

@@ -9,41 +9,48 @@ def populateBaddies():
     print('numBaddies', numBaddies)
     numArrays = len(config.myarr)
 
-    r1 = random.randint(1, numArrays-2)
-    r2 = random.randint(1, numArrays-2)
-
-    indices1 = [i for i, x in enumerate(config.myarr[r1]) if x == "0"]
-    indices2 = [i for i, x in enumerate(config.myarr[r2]) if x == "0"]
-    randIndex1 = random.choice(indices1)
-    randIndex2 = random.choice(indices2)
-
-    config.myarr[r1][randIndex1] = "@"
-    config.baddie1["position"]["x"] = r1
-    config.baddie1["position"]["y"] = randIndex1
-
-    config.myarr[r2][randIndex2] = "@"
-    config.baddie2["position"]["x"] = r2
-    config.baddie2["position"]["y"] = randIndex2
+    for i in range(numBaddies):
+        print('i', i)
+        globals()['r%s' % i] = random.randint(1, numArrays - 2)
+        globals()['indices%s' % i] = [h for h, x in enumerate(
+            config.myarr[globals()['r%s' % i]]) if x == "0"]
+        globals()['randIndex%s' % i] = random.choice(
+            globals()['indices%s' % i])
+        config.myarr[globals()['r%s' % i]][globals()['randIndex%s' % i]] = "@"
+        if i == 0:
+            config.baddie0["position"]["x"] = globals()['r%s' % i]
+            config.baddie0["position"]["y"] = globals()['randIndex%s' % i]
+        elif i == 1:
+            config.baddie1["position"]["x"] = globals()['r%s' % i]
+            config.baddie1["position"]["y"] = globals()['randIndex%s' % i]
+        elif i == 2:
+            config.baddie2["position"]["x"] = globals()['r%s' % i]
+            config.baddie2["position"]["y"] = globals()['randIndex%s' % i]
 
 
 def checkEnemy():
-    print('next', config.nextTile)
-    if config.nextTile == 0:
-        print('yep')
     if (config.nextTile == '@'):
         print('baddie ahead')
+        baddie0Position = []
         baddie1Position = []
         baddie2Position = []
+        for key, value in config.baddie0["position"].items():
+            print(key, value)
+            baddie0Position.append(value)
+        print('baddie0', baddie0Position)
         for key, value in config.baddie1["position"].items():
             print(key, value)
             baddie1Position.append(value)
-        print('config.baddie1', baddie1Position)
+        print('baddie1', baddie1Position)
         for key, value in config.baddie2["position"].items():
             print(key, value)
             baddie2Position.append(value)
         print('baddie2', baddie2Position)
 
-        if (np.array_equal(baddie1Position, config.nextPosition)):
+        if (np.array_equal(baddie0Position, config.nextPosition)):
+            print('baddie in position')
+            Controls.attack(config.baddie0)
+        elif (np.array_equal(baddie1Position, config.nextPosition)):
             print('baddie in position')
             Controls.attack(config.baddie1)
         elif (np.array_equal(baddie2Position, config.nextPosition)):
