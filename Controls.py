@@ -96,7 +96,6 @@ def attack(baddie):
     def baddieDead():
         Functions.drawBaddieInfoBox(thisBaddie["name"] + " is dead")
         Functions.dropTreasure()
-        # config.myarr[config.nextPosition[0]][config.nextPosition[1]] = '0'
         config.attackState = 'peaceful'
         turtle.clear()
         Functions.drawMap()
