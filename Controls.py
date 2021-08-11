@@ -24,15 +24,17 @@ def up():
         Functions.drawMap()
         infoBoxDefault()
         baddieInfoBoxDefault()
+    elif (config.myarr[config.row - 1][config.col] == '$'):
+        Functions.checkTreasure()
     else:
         Functions.checkWin()
         Enemy.checkEnemy()
 
 
 def down():
-    config.nextTile = config.myarr[config.row+1][config.col]
+    config.nextTile = config.myarr[config.row + 1][config.col]
     config.nextPosition = [config.row+1, config.col]
-    if (config.myarr[config.row+1][config.col] == '0'):
+    if (config.myarr[config.row + 1][config.col] == '0'):
         config.myarr[config.row][config.col] = '0'
         config.row += 1
         config.myarr[config.row][config.col] = '1'
@@ -40,15 +42,17 @@ def down():
         Functions.drawMap()
         infoBoxDefault()
         baddieInfoBoxDefault()
+    elif (config.myarr[config.row + 1][config.col] == '$'):
+        Functions.checkTreasure()
     else:
         Functions.checkWin()
         Enemy.checkEnemy()
 
 
 def left():
-    config.nextTile = config.myarr[config.row][config.col-1]
-    config.nextPosition = [config.row, config.col-1]
-    if (config.myarr[config.row][config.col-1] == '0'):
+    config.nextTile = config.myarr[config.row][config.col - 1]
+    config.nextPosition = [config.row, config.col - 1]
+    if (config.myarr[config.row][config.col - 1] == '0'):
         config.myarr[config.row][config.col] = '0'
         config.col -= 1
         config.myarr[config.row][config.col] = '1'
@@ -56,14 +60,16 @@ def left():
         Functions.drawMap()
         infoBoxDefault()
         baddieInfoBoxDefault()
+    elif (config.myarr[config.row][config.col - 1] == '$'):
+        Functions.checkTreasure()
     else:
         Functions.checkWin()
         Enemy.checkEnemy()
 
 
 def right():
-    config.nextTile = config.myarr[config.row][config.col+1]
-    config.nextPosition = [config.row, config.col+1]
+    config.nextTile = config.myarr[config.row][config.col + 1]
+    config.nextPosition = [config.row, config.col + 1]
     if (config.myarr[config.row][config.col+1] == '0'):
         config.myarr[config.row][config.col] = '0'
         config.col += 1
@@ -72,6 +78,8 @@ def right():
         Functions.drawMap()
         infoBoxDefault()
         baddieInfoBoxDefault()
+    elif (config.myarr[config.row][config.col + 1] == '$'):
+        Functions.checkTreasure()
     else:
         Functions.checkWin()
         Enemy.checkEnemy()
@@ -86,11 +94,12 @@ def attack(baddie):
         str(baddie["name"]) + "\n" + "HP: " + str(baddie["hp"]))
 
     def baddieDead():
-        config.myarr[config.nextPosition[0]][config.nextPosition[1]] = '0'
+        Functions.drawBaddieInfoBox(thisBaddie["name"] + " is dead")
+        Functions.dropTreasure()
+        # config.myarr[config.nextPosition[0]][config.nextPosition[1]] = '0'
         config.attackState = 'peaceful'
         turtle.clear()
         Functions.drawMap()
-        Functions.drawBaddieInfoBox(thisBaddie["name"] + " is dead")
 
     if (config.attackState == 'peaceful'):
         Functions.showAttackPrompt(thisBaddie)
@@ -105,3 +114,13 @@ def attack(baddie):
                 str(thisBaddie["name"]) + "\n" + "HP: " + str(thisBaddie["hp"]))
             if (baddie["hp"] <= 0):
                 baddieDead()
+
+
+def pickup(item):
+    print('pickup')
+    config.myarr[config.nextPosition[0]][config.nextPosition[1]] = '0'
+    if (item['name'] == 'gold'):
+        config.gold += item['value']
+    Functions.drawMap()
+    Functions.drawBaddieInfoBox('picked up treasure')
+    Functions.drawInfoBox(Player.printPlayerData())

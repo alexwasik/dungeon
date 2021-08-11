@@ -13,6 +13,10 @@ nextTile = 0
 nextPosition = [0, 0]
 attackState = 'peaceful'
 
+# inventory
+inventory = []
+gold = 0
+
 # baddies
 baddie0 = {
     "type": "baddie",

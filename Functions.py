@@ -1,6 +1,8 @@
 import turtle
 import config
+import random
 from tkinter.messagebox import askyesno
+import Controls
 
 
 def drawSquare(x, y, side, color):
@@ -32,6 +34,8 @@ def drawMap():
                 drawSquare(x, y, side, "white")
             elif (value == "3"):
                 drawSquare(x, y, side, "blue")
+            elif (value == "$"):
+                drawSquare(x, y, side, "orange")
             elif (value == "\n"):
                 drawSquare(x, y, side, "none")
             else:
@@ -63,7 +67,7 @@ def drawInfoBox(info):
     textbox.color('black')
     # center vertically based on font size
     if (count >= 2):
-        textbox.goto(X, Y - FONT_SIZE/.3)
+        textbox.goto(X, Y - FONT_SIZE/.275)
     else:
         textbox.goto(X, Y - FONT_SIZE/2)
     textbox.write(info, align='center', font=FONT)
@@ -95,6 +99,22 @@ def checkWin():
     if (config.nextTile == '3'):
         print("You Win")
         turtle.bye()
+
+
+def checkTreasure():
+    if (config.nextTile == '$'):
+        print('treasure ahead')
+        amount = random.randint(1, 10)
+        print('gold', amount)
+        item = {
+            'name': 'gold',
+            'value': amount
+        }
+        Controls.pickup(item)
+
+
+def dropTreasure():
+    config.myarr[config.nextPosition[0]][config.nextPosition[1]] = '$'
 
 
 def showAttackPrompt(baddieInfo):
