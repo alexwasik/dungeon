@@ -1,8 +1,17 @@
 import turtle
 import config
 import random
+import string
+from math import floor
 from tkinter.messagebox import askyesno
+from tkinter import *
+from tkinter.ttk import *
 import Controls
+
+
+def generateId():
+    strings = string.ascii_lowercase
+    return ''.join(random.choice(strings) for _ in range(8))
 
 
 def drawSquare(x, y, side, color):
@@ -60,7 +69,7 @@ def drawInfoBox(info):
     textbox.hideturtle()
     textbox.color('grey')
     textbox.shape('square')
-    textbox.shapesize(stretch_wid=5, stretch_len=20)
+    textbox.shapesize(stretch_wid=10, stretch_len=20)
     textbox.penup()
     textbox.goto(X, Y)
     textbox.stamp()
@@ -101,16 +110,78 @@ def checkWin():
         turtle.bye()
 
 
+def checkItemLocation():
+    if (config.itemDrops):
+        print('itemDrops exist', config.itemDrops)
+        items = config.itemDrops
+        for i in range(len(items)):
+            if (items[i]['position'] == config.nextPosition):
+                print('item found')
+                return {'item': items[i]['item'], 'exists': True}
+
+    return False
+
+
 def checkTreasure():
-    if (config.nextTile == '$'):
-        print('treasure ahead')
-        amount = random.randint(1, 10)
-        print('gold', amount)
-        item = {
-            'name': 'gold',
-            'value': amount
-        }
-        Controls.pickup(item)
+    print(config.inventory)
+    exists = checkItemLocation()
+    print('exists in location', exists)
+
+    if (config.nextTile == '$' and not bool(exists)):
+        dropOptions = ['weapon', 'gold']
+        weaponsList = config.weapons
+        randomDrop = random.choices(
+            dropOptions, weights=(80, 20), k=1)[0]
+        print('randomDrop', randomDrop)
+        if (randomDrop == 'weapon'):
+            weaponsListLen = len(weaponsList)
+
+            def divideWeights():
+                MAX = 100
+                KNUCKS = 60
+                remainder = MAX - KNUCKS
+                lengthRange = weaponsListLen-1
+                results = []
+                total = remainder
+                for i in range(lengthRange):
+                    print(i)
+                    if (i == lengthRange-1):
+                        results.append(remainder)
+                    elif (i == 0):
+                        results.append(KNUCKS)
+                    else:
+                        left = floor(remainder / 1.75)
+                        remainder -= left
+                        total += left
+                        results.append(left)
+                print('remainder', remainder)
+                return results
+            weights = divideWeights()
+            availableWeapons = weaponsList[1:]
+            randomWeapon = random.choices(
+                availableWeapons, weights=tuple(weights), k=1)[0]
+            print('randomWeapon', randomWeapon)
+            drop = randomWeapon
+            drop['condition'] = random.randint(30, 100)
+            drop['id'] = generateId()
+            print('random drop', drop)
+            dropItem = {
+                "item": drop,
+                "position": config.nextPosition
+            }
+            config.itemDrops.append(dropItem)
+            showItemPickupPrompt(drop, False)
+
+        elif (randomDrop == 'gold'):
+            amount = random.randint(1, 10)
+            print('gold', amount)
+            item = {
+                'name': 'gold',
+                'value': amount
+            }
+            Controls.pickup(item)
+    else:
+        showItemPickupPrompt(exists['item'], exists['exists'])
 
 
 def dropTreasure():
@@ -122,3 +193,55 @@ def showAttackPrompt(baddieInfo):
         baddieInfo["hp"]) + '\nDo you want to attack?')
     if (answer):
         config.attackState = 'war'
+
+
+def showItemPickupPrompt(item, exists=False,):
+    def printItemInfo():
+        return(
+            'Pick Up? \n\n' +
+            str(item['name']) + '\n' +
+            'Condition: ' + str(item['condition']) + '\n'
+        )
+
+    answer = askyesno(title='Pick up?',
+                      message=printItemInfo()
+                      )
+    if (answer):
+        Controls.pickup({"name": "weapon", "item": item})
+    else:
+        if (not exists):
+            print('drops', config.itemDrops)
+
+
+def getWeaponData(weapon):
+    print(weapon)
+    match = [x for x in config.weapons if x['code_name'] == weapon]
+    print(match[0])
+    return match[0]
+
+
+def showInventory():
+    FONT_SIZE = 16
+    FONT = ('Courier', FONT_SIZE, 'bold')
+    root = Tk()
+    root.title('Inventory')
+    root.geometry("250x200")
+    root.eval('tk::PlaceWindow %s center' % root.winfo_toplevel())
+    root.config(background='grey', width=200, height=150)
+    var = StringVar(root)
+    label = Label(root, font=FONT)
+
+    def handleSelection():
+        print(str(var.get()))
+        root.destroy()
+    if (config.inventory):
+        for i in config.inventory:
+            Radiobutton(root, text=str(i['name'] + '\n' + 'Condition: ' +
+                                       str(i['condition'])), variable=var,
+                        value=i).pack(anchor=W)
+    else:
+        Label(root, text='Inventory is empty', font=FONT).pack()
+
+    B1 = Button(root, text="OK", command=handleSelection)
+    B1.pack(anchor=W, side=BOTTOM)
+    label.pack()

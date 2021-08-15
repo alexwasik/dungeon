@@ -38,7 +38,7 @@ turtle.onkey(Controls.up, 'Up')
 turtle.onkey(Controls.left, 'Left')
 turtle.onkey(Controls.down, 'Down')
 turtle.onkey(Controls.right, 'Right')
-turtle.onkey(Controls.attack, 'a')
+turtle.onkey(Controls.equip, 'e')
 
 turtle.listen()
 turtle.mainloop()

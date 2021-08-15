@@ -1,6 +1,7 @@
 import json
+import Functions
 f = open('weapons.json')
-weapon_data = json.load(f)
+weapon_data = json.load(f,)
 
 # turtle settings
 bgcolor = '#a9adb6'
@@ -11,9 +12,12 @@ col = 1
 row = 1
 nextTile = 0
 nextPosition = [0, 0]
+currentPosition = [0, 0]
 attackState = 'peaceful'
+itemDrops = []
 
 # inventory
+weapons = list(weapon_data['weapons'])
 inventory = []
 gold = 0
 
@@ -57,7 +61,11 @@ player = {
         "y": 0
     },
     "weapon": {
-        'name': weapon_data['brass_knuckles']['name'],
-        'damage': weapon_data['brass_knuckles']['damage'],
+        # "name": "butts",
+        # "damage": 1,
+        # "condition": "broken"
+        "name": Functions.getWeaponData('fists')['name'],
+        "damage": Functions.getWeaponData('fists')['damage'],
+        "condition": Functions.getWeaponData('fists')['condition'],
     }
 }

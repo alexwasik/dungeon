@@ -13,6 +13,10 @@ def baddieInfoBoxDefault():
     Functions.drawBaddieInfoBox('')
 
 
+def setCurrentPosition(row, col):
+    config.currentPosition = [row, col]
+
+
 def up():
     config.nextTile = config.myarr[config.row - 1][config.col]
     config.nextPosition = [config.row - 1, config.col]
@@ -68,6 +72,7 @@ def left():
 
 
 def right():
+    setCurrentPosition(config.row, config.col)
     config.nextTile = config.myarr[config.row][config.col + 1]
     config.nextPosition = [config.row, config.col + 1]
     if (config.myarr[config.row][config.col+1] == '0'):
@@ -115,11 +120,31 @@ def attack(baddie):
                 baddieDead()
 
 
+def equip():
+    print('equip')
+    Functions.showInventory()
+
+
 def pickup(item):
-    print('pickup')
-    config.myarr[config.nextPosition[0]][config.nextPosition[1]] = '0'
+    print('pickup', item)
     if (item['name'] == 'gold'):
         config.gold += item['value']
+    elif (item['name'] == 'weapon'):
+        index = next((index for (index, d) in enumerate(
+            config.itemDrops) if d['item']["id"] == item['item']['id']), None)
+        del config.itemDrops[index]
+        print('itemDrops pickup', config.itemDrops)
+        config.inventory.append(item['item'])
+        # remove from itemDrops
+        index = next((index for (index, d) in enumerate(
+            config.itemDrops) if d['item']["id"] == item['item']['id']), None)
+        if (index != None):
+            del config.itemDrops[index]
+        print('itemDrops pickup', config.itemDrops)
+    config.myarr[config.nextPosition[0]][config.nextPosition[1]] = '0'
+    print('position',
+          config.nextPosition)
+    turtle.clear()
     Functions.drawMap()
-    Functions.drawBaddieInfoBox('picked up treasure')
+    Functions.drawBaddieInfoBox('picked up %s' % item['name'])
     Functions.drawInfoBox(Player.printPlayerData())

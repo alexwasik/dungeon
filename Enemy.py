@@ -10,7 +10,6 @@ def populateBaddies():
     numArrays = len(config.myarr)
 
     for i in range(numBaddies):
-        print('i', i)
         globals()['r%s' % i] = random.randint(1, numArrays - 2)
         globals()['indices%s' % i] = [h for h, x in enumerate(
             config.myarr[globals()['r%s' % i]]) if x == "0"]

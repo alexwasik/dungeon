@@ -1,19 +1,29 @@
 {
-    "fists":
-    {
-        "name": "Fists",
-        "damage": 1
-    },
+    "weapons": [
 
-    "brass_knuckles":
-    {
-        "name": "Brass Knuckles",
-        "damage": 2
-    },
-
-    "basic_knife":
-    {
-        "name": "Basic Knife",
-        "damage": 3
-    }
+        {
+            "code_name": "fists",
+            "name": "Fists",
+            "damage": 1,
+            "condition": 100
+        },
+        {
+            "code_name": "brass_knuckles",
+            "name": "Brass Knuckles",
+            "damage": 2,
+            "condition": 110
+        },
+        {
+            "code_name": "basic_dagger",
+            "name": "Basic Dagger",
+            "damage": 3,
+            "condition": 150
+        },
+        {
+            "code_name": "anointed_dagger",
+            "name": "Anointed Dagger",
+            "damage": 4,
+            "condition": 175
+        }
+    ]
 }
