@@ -29,29 +29,21 @@ def populateBaddies():
 
 def checkEnemy():
     if (config.nextTile == '@'):
-        print('baddie ahead')
         baddie0Position = []
         baddie1Position = []
         baddie2Position = []
         for key, value in config.baddie0["position"].items():
-            print(key, value)
             baddie0Position.append(value)
-        print('baddie0', baddie0Position)
         for key, value in config.baddie1["position"].items():
-            print(key, value)
             baddie1Position.append(value)
         print('baddie1', baddie1Position)
         for key, value in config.baddie2["position"].items():
-            print(key, value)
             baddie2Position.append(value)
         print('baddie2', baddie2Position)
 
         if (np.array_equal(baddie0Position, config.nextPosition)):
-            print('baddie in position')
             Controls.attack(config.baddie0)
         elif (np.array_equal(baddie1Position, config.nextPosition)):
-            print('baddie in position')
             Controls.attack(config.baddie1)
         elif (np.array_equal(baddie2Position, config.nextPosition)):
-            print('baddie in position')
             Controls.attack(config.baddie2)

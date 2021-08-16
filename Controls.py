@@ -94,7 +94,6 @@ def attack(baddie):
     print('attack')
     thisBaddie = baddie
     weaponDamage = config.player['weapon']['damage']
-    print(weaponDamage)
     Functions.drawBaddieInfoBox(
         str(baddie["name"]) + "\n" + "HP: " + str(baddie["hp"]))
 
@@ -113,7 +112,6 @@ def attack(baddie):
             baddieDead()
         elif(thisBaddie["hp"] > 0):
             thisBaddie["hp"] -= weaponDamage
-            print("baddie hp", thisBaddie["hp"])
             Functions.drawBaddieInfoBox(
                 str(thisBaddie["name"]) + "\n" + "HP: " + str(thisBaddie["hp"]))
             if (baddie["hp"] <= 0):
@@ -126,24 +124,18 @@ def equip():
 
 
 def pickup(item):
-    print('pickup', item)
     if (item['name'] == 'gold'):
         config.gold += item['value']
     elif (item['name'] == 'weapon'):
         index = next((index for (index, d) in enumerate(
             config.itemDrops) if d['item']["id"] == item['item']['id']), None)
-        del config.itemDrops[index]
         print('itemDrops pickup', config.itemDrops)
-        config.inventory.append(item['item'])
-        # remove from itemDrops
-        index = next((index for (index, d) in enumerate(
-            config.itemDrops) if d['item']["id"] == item['item']['id']), None)
         if (index != None):
             del config.itemDrops[index]
+            config.inventory.append(item['item'])
+            print('inventory pickup', config.inventory)
         print('itemDrops pickup', config.itemDrops)
     config.myarr[config.nextPosition[0]][config.nextPosition[1]] = '0'
-    print('position',
-          config.nextPosition)
     turtle.clear()
     Functions.drawMap()
     Functions.drawBaddieInfoBox('picked up %s' % item['name'])

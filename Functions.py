@@ -7,6 +7,7 @@ from tkinter.messagebox import askyesno
 from tkinter import *
 from tkinter.ttk import *
 import Controls
+import Player
 
 
 def generateId():
@@ -210,13 +211,11 @@ def showItemPickupPrompt(item, exists=False,):
         Controls.pickup({"name": "weapon", "item": item})
     else:
         if (not exists):
-            print('drops', config.itemDrops)
+            print('did not pick up drops', config.itemDrops)
 
 
 def getWeaponData(weapon):
-    print(weapon)
     match = [x for x in config.weapons if x['code_name'] == weapon]
-    print(match[0])
     return match[0]
 
 
@@ -228,20 +227,36 @@ def showInventory():
     root.geometry("250x200")
     root.eval('tk::PlaceWindow %s center' % root.winfo_toplevel())
     root.config(background='grey', width=200, height=150)
-    var = StringVar(root)
+    var = IntVar(root)
     label = Label(root, font=FONT)
 
-    def handleSelection():
-        print(str(var.get()))
-        root.destroy()
+    inventory = config.inventory
+
     if (config.inventory):
-        for i in config.inventory:
-            Radiobutton(root, text=str(i['name'] + '\n' + 'Condition: ' +
-                                       str(i['condition'])), variable=var,
+        for i in range(len(inventory)):
+            Radiobutton(root, text=str(inventory[i]['name'] + '\n' + 'Condition: ' +
+                                       str(inventory[i]['condition'])), variable=var,
                         value=i).pack(anchor=W)
     else:
         Label(root, text='Inventory is empty', font=FONT).pack()
 
-    B1 = Button(root, text="OK", command=handleSelection)
-    B1.pack(anchor=W, side=BOTTOM)
+    def handleSelection():
+        inventoryItem = inventory[var.get()]
+        config.player['weapon']['name'] = inventoryItem['name']
+        config.player['weapon']['damage'] = getWeaponData(
+            inventoryItem['code_name'])['damage']
+        config.player['weapon']['condition'] = inventoryItem['condition']
+        turtle.clear()
+        drawMap()
+        drawInfoBox(Player.printPlayerData())
+        root.destroy()
+
+    def handleCancelSelection():
+        root.destroy()
+    if (config.inventory):
+        B1 = Button(root, text="OK", command=handleSelection)
+        B1.pack(anchor=W, side=BOTTOM)
+
+    B2 = Button(root, text="Cancel", command=handleCancelSelection)
+    B2.pack(anchor=W, side=BOTTOM)
     label.pack()
