@@ -13,10 +13,6 @@ def baddieInfoBoxDefault():
     Functions.drawBaddieInfoBox('')
 
 
-def setCurrentPosition(row, col):
-    config.currentPosition = [row, col]
-
-
 def up():
     config.nextTile = config.myarr[config.row - 1][config.col]
     config.nextPosition = [config.row - 1, config.col]
@@ -72,7 +68,6 @@ def left():
 
 
 def right():
-    setCurrentPosition(config.row, config.col)
     config.nextTile = config.myarr[config.row][config.col + 1]
     config.nextPosition = [config.row, config.col + 1]
     if (config.myarr[config.row][config.col+1] == '0'):
@@ -91,18 +86,20 @@ def right():
 
 
 def attack(baddie):
-    print('attack')
     thisBaddie = baddie
     weaponDamage = config.player['weapon']['damage']
     Functions.drawBaddieInfoBox(
         str(baddie["name"]) + "\n" + "HP: " + str(baddie["hp"]))
 
     def baddieDead():
-        Functions.drawBaddieInfoBox(thisBaddie["name"] + " is dead")
         Functions.dropTreasure()
         config.attackState = 'peaceful'
+        config.score += 5
         turtle.clear()
         Functions.drawMap()
+        Functions.getLevel()
+        Functions.drawScoreInfoBox()
+        Functions.drawBaddieInfoBox(thisBaddie["name"] + " is dead")
 
     if (config.attackState == 'peaceful'):
         Functions.showAttackPrompt(thisBaddie)
@@ -117,12 +114,10 @@ def attack(baddie):
             if (baddie["hp"] <= 0):
                 baddieDead()
         config.player['weapon']['condition'] -= 1
-        print('weaponCondition', config.player['weapon']['condition'])
         Functions.drawInfoBox(Player.printPlayerData())
 
 
 def equip():
-    print('equip')
     Functions.showInventory()
 
 
