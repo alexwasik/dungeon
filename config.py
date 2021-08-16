@@ -7,6 +7,7 @@ weapon_data = json.load(f,)
 bgcolor = '#a9adb6'
 
 # app vars
+map = 0
 myarr = []
 col = 1
 row = 1
@@ -15,7 +16,8 @@ nextPosition = [0, 0]
 currentPosition = [0, 0]
 attackState = 'peaceful'
 itemDrops = []
-score: 0
+score = 0
+level = 1
 
 # inventory
 weapons = list(weapon_data['weapons'])
@@ -45,6 +47,15 @@ baddie2 = {
     "type": "baddie",
     "name": "Baddie 3",
     "hp": 7,
+    "position": {
+        "x": 0,
+        "y": 0
+    },
+}
+baddie3 = {
+    "type": "baddie",
+    "name": "Baddie 4",
+    "hp": 8,
     "position": {
         "x": 0,
         "y": 0

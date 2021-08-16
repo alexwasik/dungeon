@@ -5,7 +5,7 @@ import numpy as np
 
 
 def populateBaddies():
-    numBaddies = random.randint(1, 3)
+    numBaddies = random.randint(1, 4)
     print('numBaddies', numBaddies)
     numArrays = len(config.myarr)
 
@@ -25,21 +25,26 @@ def populateBaddies():
         elif i == 2:
             config.baddie2["position"]["x"] = globals()['r%s' % i]
             config.baddie2["position"]["y"] = globals()['randIndex%s' % i]
+        elif i == 3:
+            config.baddie2["position"]["x"] = globals()['r%s' % i]
+            config.baddie2["position"]["y"] = globals()['randIndex%s' % i]
 
 
 def checkEnemy():
     if (config.nextTile == '@'):
+        # refactor to use globals
         baddie0Position = []
         baddie1Position = []
         baddie2Position = []
-        for key, value in config.baddie0["position"].items():
+        baddie3Position = []
+        for _, value in config.baddie0["position"].items():
             baddie0Position.append(value)
-        for key, value in config.baddie1["position"].items():
+        for _, value in config.baddie1["position"].items():
             baddie1Position.append(value)
-        print('baddie1', baddie1Position)
-        for key, value in config.baddie2["position"].items():
+        for _, value in config.baddie2["position"].items():
             baddie2Position.append(value)
-        print('baddie2', baddie2Position)
+        for _, value in config.baddie2["position"].items():
+            baddie3Position.append(value)
 
         if (np.array_equal(baddie0Position, config.nextPosition)):
             Controls.attack(config.baddie0)
@@ -47,3 +52,5 @@ def checkEnemy():
             Controls.attack(config.baddie1)
         elif (np.array_equal(baddie2Position, config.nextPosition)):
             Controls.attack(config.baddie2)
+        elif (np.array_equal(baddie3Position, config.nextPosition)):
+            Controls.attack(config.baddie3)

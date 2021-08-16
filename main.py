@@ -11,27 +11,38 @@ screen.bgcolor(config.bgcolor)
 
 turtle.hideturtle()
 
-f = open('map.txt', 'r')
 
-while(True):
-    tempLine = f.readline()
+def openMap(mapNum=0):
+    f = open('maps/map%s' % mapNum + '.txt', 'r')
 
-    if tempLine == "":
-        break
+    while(True):
+        tempLine = f.readline()
 
-    temparr = []
-    for t in tempLine:
-        temparr.append(t)
+        if tempLine == "":
+            break
 
-    config.myarr.append(temparr)
+        temparr = []
+        for t in tempLine:
+            temparr.append(t)
 
-f.close()
+        config.myarr.append(temparr)
+
+    f.close()
 
 
+openMap()
 Enemy.populateBaddies()
 Functions.drawMap()
+Functions.drawScoreInfoBox()
 Functions.drawInfoBox(Player.printPlayerData())
 Functions.drawBaddieInfoBox('')
+
+
+# def get_mouse_click_coor(x, y):
+#     print(x, y)
+
+
+# turtle.onscreenclick(get_mouse_click_coor)
 
 
 turtle.onkey(Controls.up, 'Up')

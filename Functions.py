@@ -15,6 +15,12 @@ def generateId():
     return ''.join(random.choice(strings) for _ in range(8))
 
 
+def getLevel():
+    divisible = 100 % config.score
+    if (divisible == 100):
+        config.level += 1
+
+
 def drawSquare(x, y, side, color):
     turtle.up()
     turtle.goto(x, y)
@@ -105,6 +111,50 @@ def drawBaddieInfoBox(baddieInfo):
     turtle.update()
 
 
+def drawScoreInfoBox():
+    FONT_SIZE = 16
+    FONT = ('Courier', FONT_SIZE, 'bold')
+    X = 160
+    Y = -180
+
+    textbox = turtle.Turtle()
+    textbox.hideturtle()
+    textbox.color('grey')
+    textbox.shape('square')
+    textbox.shapesize(stretch_wid=5, stretch_len=10)
+    textbox.penup()
+    textbox.goto(X, Y)
+    textbox.stamp()
+    textbox.color('black')
+    # center vertically based on font size
+    textbox.goto(X, Y - FONT_SIZE/2)
+    textbox.write("Score: " + "\n" + str('Level: %s' %
+                  getLevel()), align='center', font=FONT)
+    turtle.update()
+
+
+def drawScoreInfoBox():
+    FONT_SIZE = 16
+    FONT = ('Courier', FONT_SIZE, 'bold')
+    X = 495
+    Y = 400
+
+    textbox = turtle.Turtle()
+    textbox.hideturtle()
+    textbox.color('grey')
+    textbox.shape('square')
+    textbox.shapesize(stretch_wid=5, stretch_len=20)
+    textbox.penup()
+    textbox.goto(X, Y)
+    textbox.stamp()
+    textbox.color('black')
+    # center vertically based on font size
+    textbox.goto(X, Y - FONT_SIZE/.9)
+    textbox.write("Score: %s" % config.score + "\n" + "Level: %s" %
+                  config.level, align='center', font=FONT)
+    turtle.update()
+
+
 def checkWin():
     if (config.nextTile == '3'):
         print("You Win")
@@ -123,7 +173,7 @@ def checkItemLocation():
 
 
 def checkTreasure():
-    print(config.inventory)
+    print('check treasure inv', config.inventory)
     exists = checkItemLocation()
 
     if (config.nextTile == '$' and not bool(exists)):
@@ -142,7 +192,6 @@ def checkTreasure():
                 results = []
                 total = remainder
                 for i in range(lengthRange):
-                    print(i)
                     if (i == lengthRange-1):
                         results.append(remainder)
                     elif (i == 0):
@@ -152,13 +201,11 @@ def checkTreasure():
                         remainder -= left
                         total += left
                         results.append(left)
-                print('remainder', remainder)
                 return results
             weights = divideWeights()
             availableWeapons = weaponsList[1:]
             randomWeapon = random.choices(
                 availableWeapons, weights=tuple(weights), k=1)[0]
-            print('randomWeapon', randomWeapon)
             drop = randomWeapon
             drop['condition'] = random.randint(30, 100)
             drop['id'] = generateId()
@@ -171,7 +218,6 @@ def checkTreasure():
 
         elif (randomDrop == 'gold'):
             amount = random.randint(1, 10)
-            print('gold', amount)
             item = {
                 'name': 'gold',
                 'value': amount
