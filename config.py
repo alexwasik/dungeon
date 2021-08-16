@@ -15,6 +15,7 @@ nextPosition = [0, 0]
 currentPosition = [0, 0]
 attackState = 'peaceful'
 itemDrops = []
+score: 0
 
 # inventory
 weapons = list(weapon_data['weapons'])
@@ -56,14 +57,12 @@ player = {
     "type": "player",
     "name": "Player 1",
     "hp": 100,
+    "level": 1,
     "position": {
         "x": 0,
         "y": 0
     },
     "weapon": {
-        # "name": "butts",
-        # "damage": 1,
-        # "condition": "broken"
         "name": Functions.getWeaponData('fists')['name'],
         "damage": Functions.getWeaponData('fists')['damage'],
         "condition": Functions.getWeaponData('fists')['condition'],

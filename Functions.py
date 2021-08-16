@@ -113,7 +113,6 @@ def checkWin():
 
 def checkItemLocation():
     if (config.itemDrops):
-        print('itemDrops exist', config.itemDrops)
         items = config.itemDrops
         for i in range(len(items)):
             if (items[i]['position'] == config.nextPosition):
@@ -126,14 +125,12 @@ def checkItemLocation():
 def checkTreasure():
     print(config.inventory)
     exists = checkItemLocation()
-    print('exists in location', exists)
 
     if (config.nextTile == '$' and not bool(exists)):
         dropOptions = ['weapon', 'gold']
         weaponsList = config.weapons
         randomDrop = random.choices(
-            dropOptions, weights=(80, 20), k=1)[0]
-        print('randomDrop', randomDrop)
+            dropOptions, weights=(20, 80), k=1)[0]
         if (randomDrop == 'weapon'):
             weaponsListLen = len(weaponsList)
 
@@ -165,7 +162,6 @@ def checkTreasure():
             drop = randomWeapon
             drop['condition'] = random.randint(30, 100)
             drop['id'] = generateId()
-            print('random drop', drop)
             dropItem = {
                 "item": drop,
                 "position": config.nextPosition

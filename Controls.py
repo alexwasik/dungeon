@@ -116,6 +116,9 @@ def attack(baddie):
                 str(thisBaddie["name"]) + "\n" + "HP: " + str(thisBaddie["hp"]))
             if (baddie["hp"] <= 0):
                 baddieDead()
+        config.player['weapon']['condition'] -= 1
+        print('weaponCondition', config.player['weapon']['condition'])
+        Functions.drawInfoBox(Player.printPlayerData())
 
 
 def equip():
