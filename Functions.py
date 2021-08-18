@@ -8,6 +8,7 @@ from tkinter import *
 from tkinter.ttk import *
 import Controls
 import Player
+import Maps
 
 
 def generateId():
@@ -157,8 +158,8 @@ def drawScoreInfoBox():
 
 def checkWin():
     if (config.nextTile == '3'):
-        print("You Win")
-        turtle.bye()
+        config.map += 1
+        Maps.openMap(config.map)
 
 
 def checkItemLocation():
@@ -166,14 +167,12 @@ def checkItemLocation():
         items = config.itemDrops
         for i in range(len(items)):
             if (items[i]['position'] == config.nextPosition):
-                print('item found')
                 return {'item': items[i]['item'], 'exists': True}
 
     return False
 
 
 def checkTreasure():
-    print('check treasure inv', config.inventory)
     exists = checkItemLocation()
 
     if (config.nextTile == '$' and not bool(exists)):
@@ -262,6 +261,7 @@ def getWeaponData(weapon):
 
 
 def showInventory():
+
     FONT_SIZE = 16
     FONT = ('Courier', FONT_SIZE, 'bold')
     root = Tk()
@@ -272,17 +272,7 @@ def showInventory():
     var = IntVar(root)
     label = Label(root, font=FONT)
 
-    inventory = config.inventory
-
-    if (config.inventory):
-        for i in range(len(inventory)):
-            Radiobutton(root, text=str(inventory[i]['name'] + '\n' + 'Condition: ' +
-                                       str(inventory[i]['condition'])), variable=var,
-                        value=i).pack(anchor=W)
-    else:
-        Label(root, text='Inventory is empty', font=FONT).pack()
-
-    def handleSelection():
+    def handleSelection(event=None):
         inventoryItem = inventory[var.get()]
         config.player['weapon']['name'] = inventoryItem['name']
         config.player['weapon']['damage'] = getWeaponData(
@@ -295,8 +285,21 @@ def showInventory():
 
     def handleCancelSelection():
         root.destroy()
+
+    root.bind('<Return>', handleSelection)
+    inventory = config.inventory
+
+    if (config.inventory):
+        for i in range(len(inventory)):
+            Radiobutton(root, text=str(inventory[i]['name'] + '\n' + 'Condition: ' +
+                                       str(inventory[i]['condition'])), variable=var,
+                        value=i).pack(anchor=W)
+    else:
+        Label(root, text='Inventory is empty', font=FONT).pack()
+
     if (config.inventory):
         B1 = Button(root, text="OK", command=handleSelection)
+        B1.bind('<Return>', handleSelection)
         B1.pack(anchor=W, side=BOTTOM)
 
     B2 = Button(root, text="Cancel", command=handleCancelSelection)
