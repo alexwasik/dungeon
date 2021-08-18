@@ -8,11 +8,8 @@ import Player
 def setNewPosition():
     found = False
     for i in range(len(config.myarr)):
-        print('i' + str(i))
         for idx, item in enumerate(config.myarr[i]):
-            print('item' + str(item), 'idx' + str(idx))
             if item == '1':
-                print(i, str(idx))
                 config.row = i
                 config.col = idx
                 found = True
