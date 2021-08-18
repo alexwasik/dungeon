@@ -127,12 +127,9 @@ def pickup(item):
     elif (item['name'] == 'weapon'):
         index = next((index for (index, d) in enumerate(
             config.itemDrops) if d['item']["id"] == item['item']['id']), None)
-        print('itemDrops pickup', config.itemDrops)
         if (index != None):
             del config.itemDrops[index]
             config.inventory.append(item['item'])
-            print('inventory pickup', config.inventory)
-        print('itemDrops pickup', config.itemDrops)
     config.myarr[config.nextPosition[0]][config.nextPosition[1]] = '0'
     turtle.clear()
     Functions.drawMap()
