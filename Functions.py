@@ -157,9 +157,11 @@ def drawScoreInfoBox():
 
 
 def checkWin():
-    if (config.nextTile == '3'):
+    if (config.map < 2 and config.nextTile == '3'):
         config.map += 1
         Maps.openMap(config.map)
+    elif (config.map == 2 and config.nextTile == '3'):
+        drawBaddieInfoBox('Game Over. No more maps.... yet!')
 
 
 def checkItemLocation():

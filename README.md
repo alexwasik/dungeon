@@ -9,12 +9,18 @@ This game is a _very_ basic 2D Dungeon Crawler built with Python and [Turtle](ht
 
 ## Install and Run
 
-Python3 is required to run this game. Be sure you have python3 installed. Please check [python.org](https://www.python.org/downloads/) documentation for installation instructions.
+Python3 and Pipenv are required to run this game. Be sure you have python3 installed. Please check [python.org](https://www.python.org/downloads/) documentation for installation instructions.
+
+### To install Pipenv:
+
+```
+pip install --user pipenv
+```
 
 To run, navigate to repo directory and type in your console:
 
 ```
-python3 main.py
+pipenv run dungeon
 ```
 
 ## Controls
